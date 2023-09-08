@@ -19,12 +19,13 @@ async function handleSignup(req: Request, res: Response) {
   try {
     const user = await newUser.save();
 
-    const token = issueToken(user);
+    const { access_token, expiresIn } = issueToken(user);
 
     res.status(200).json({
       message: "New User Created",
       user: { id: user._id, name: user.name, email: user.email },
-      access_token: token,
+      access_token,
+      expiresIn,
     });
   } catch (error) {
     logger.error({ Path2D: "/auth/signup", error });

@@ -7,7 +7,7 @@ interface User {
 }
 
 interface Token {
-  token: string;
+  access_token: string;
   expiresIn: string;
 }
 
@@ -30,7 +30,7 @@ function issueToken(user: User): Token {
   });
 
   return {
-    token: `Bearer ${signedToken}`,
+    access_token: `Bearer ${signedToken}`,
     expiresIn,
   };
 }

@@ -23,3 +23,5 @@ function validateSignin(req: Request, res: Response, next: NextFunction) {
       .json({ message: "Request Validation Failed", error: error });
   }
 }
+
+export default validateSignin;
