@@ -4,9 +4,6 @@ import path from "path";
 
 import { pino } from "./utils/logger";
 
-import homeRouter from "./routes/index";
-import helloApiRouter from "./routes/api/hello/index";
-
 const app = express();
 
 app.set("view engine", "ejs");
@@ -18,8 +15,5 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/home", homeRouter);
-app.use("/api", helloApiRouter);
 
 export default app;

@@ -1,12 +1,13 @@
-/**
- * The following is a sample database schema with Mongoose for Mongo Db
- * Replace this with your own database schemas
- */
+import mongoose, { Schema, model, Document } from "mongoose";
 
-const db = require("mongoose");
-const { Schema, model } = db;
+interface IUser extends Document {
+  name: string;
+  email: string;
+  hash: string;
+  salt: string;
+}
 
-const userSchema = new Schema(
+const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
@@ -32,11 +33,13 @@ const userSchema = new Schema(
   {
     timestamps: true,
     query: {
-      byEmail(email) {
+      byEmail(email: string) {
         return this.where({ email });
       },
     },
   }
 );
 
-module.exports = model("User", userSchema);
+const User = model<IUser>("User", userSchema);
+
+export default User;

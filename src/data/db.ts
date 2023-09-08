@@ -1,18 +1,14 @@
-/**
- * Replace the following with your own database connection and management logic
- */
-
-const db = require("mongoose");
-const { logger } = require("../utils/logger");
+import mongoose from "mongoose";
+import { logger } from "../utils/logger";
 
 async function connectToDB() {
   try {
-    await db.connect(`${process.env.MONGODB_URI}`);
-    logger.info(`Connected to Database: ${db.connection.name}`);
+    await mongoose.connect(`${process.env.MONGODB_URI}`);
+    logger.info(`Connected to Database: ${mongoose.connection.name}`);
   } catch (error) {
-    logger.error("Database COnnection Failed" + error);
+    logger.error("Database Connection Failed" + error);
     process.exit(1);
   }
 }
 
-module.exports = connectToDB;
+export default connectToDB;

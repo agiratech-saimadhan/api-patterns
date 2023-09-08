@@ -7,6 +7,7 @@ import { logger } from "./src/utils/logger";
 import generateKeypair from "./src/utils/generateKeypair";
 
 import app from "./src/index";
+import connectToDB from "./src/data/db";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.set("port", port);
 const server: http.Server = http.createServer(app);
 
 server.listen(port);
+connectToDB();
 
 const privKeyPath: string = path.join(__dirname, "./id_rsa_priv.pem");
 const pubKeyPath: string = path.join(__dirname, "./id_rsa_pub.pem");
