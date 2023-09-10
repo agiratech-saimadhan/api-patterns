@@ -23,4 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/:version/auth", authRouter);
 app.use("/api/:version/users", userRouter);
 
+app.all("*", (req, res) => {
+  res.status(404).json({ message: "Resource Not Found" });
+});
+
 export default app;
