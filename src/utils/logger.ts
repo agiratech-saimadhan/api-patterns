@@ -1,3 +1,4 @@
+import path from "path";
 import { pinoHttp, Options } from "pino-http";
 import pinoPretty from "pino-pretty";
 
@@ -11,7 +12,18 @@ const pino = pinoHttp({
     return "info";
   },
   prettifier: pinoPretty,
-} as Options);
+  transport: {
+    targets: [
+      {
+        target: 'pino/file',
+        options: { destination: `${path.join(__dirname, '../../.log')}` },
+      },
+      {
+        target: 'pino/file'
+      },
+    ],
+  }
+} as unknown as Options);
 
 const logger = pino.logger;
 
