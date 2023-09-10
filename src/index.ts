@@ -3,7 +3,6 @@ import cors from "cors";
 import path from "path";
 import passport from "passport";
 
-
 import authRouter from "./routes/api/auth";
 import userRouter from "./routes/api/users";
 import jwtStrategy from "./config/passportConfig";

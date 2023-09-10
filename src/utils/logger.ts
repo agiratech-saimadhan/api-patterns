@@ -7,10 +7,11 @@ const transport = pino.transport({
     {
       target: "pino/file",
       options: { destination: `${path.join(__dirname, "../../.log")}` },
-      level: "info",
+      level: "trace",
     },
     {
       target: "pino-pretty",
+      level: "trace",
     },
   ],
 } as TransportMultiOptions);
@@ -25,14 +26,18 @@ const logger = pino(
         "address",
         "passport",
         "phone",
+        "authorization",
         "user.name",
         "user.address",
         "user.passport",
         "user.phone",
+        "header.authorization",
         "*.user.name", // * is a wildcard covering a depth of 1
         "*.user.address",
         "*.user.passport",
         "*.user.phone",
+        "*.authorization",
+        "*.headers.authorization",
       ],
       censor: "[API REDACTED]",
     },

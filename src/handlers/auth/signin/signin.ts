@@ -21,7 +21,8 @@ async function handleSignIn(req: Request, res: Response) {
       const { access_token, expiresIn } = issueToken(user);
 
       logger.info(
-        '{ module: "User Authentication", version: "1", userId: user._id }, "User Authenticated"'
+        { module: "User Authentication", version: "1", userId: user._id },
+        "User Authenticated"
       );
 
       res.status(200).json({
