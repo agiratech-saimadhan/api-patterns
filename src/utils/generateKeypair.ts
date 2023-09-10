@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import { logger } from "./logger";
+import logger from "./logger";
 
 function generateKeyPair() {
   const keyPair = crypto.generateKeyPairSync("rsa", {

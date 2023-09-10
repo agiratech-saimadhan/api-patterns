@@ -3,18 +3,19 @@ import cors from "cors";
 import path from "path";
 import passport from "passport";
 
-import { pino } from "./utils/logger";
 
 import authRouter from "./routes/api/auth";
 import userRouter from "./routes/api/users";
 import jwtStrategy from "./config/passportConfig";
+import { pinoHttp } from "pino-http";
+import logger from "./utils/logger";
 
 const app = express();
 
 passport.use(jwtStrategy);
 
 app.use(cors());
-app.use(pino);
+app.use(pinoHttp({ logger }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 

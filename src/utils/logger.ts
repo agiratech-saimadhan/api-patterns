@@ -1,36 +1,43 @@
 import path from "path";
-import { TransportTargetOptions } from "pino";
-import { pinoHttp, Options } from "pino-http";
+import pino, { TransportMultiOptions, TransportTargetOptions } from "pino";
 import pinoPretty from "pino-pretty";
 
-const pino = pinoHttp({
-  customLogLevel: (res, err) => {
-    if (res.statusCode! >= 400 && res.statusCode! < 500) {
-      return "warn";
-    } else if (res.statusCode! >= 500 || err) {
-      return "error";
-    }
-    return "info";
+const transport = pino.transport({
+  targets: [
+    {
+      target: "pino/file",
+      options: { destination: `${path.join(__dirname, "../../.log")}` },
+      level: "info",
+    },
+    {
+      target: "pino-pretty",
+    },
+  ],
+} as TransportMultiOptions);
+
+const logger = pino(
+  {
+    timestamp: pino.stdTimeFunctions.isoTime,
+    prettifier: pinoPretty,
+    redact: {
+      paths: [
+        "name",
+        "address",
+        "passport",
+        "phone",
+        "user.name",
+        "user.address",
+        "user.passport",
+        "user.phone",
+        "*.user.name", // * is a wildcard covering a depth of 1
+        "*.user.address",
+        "*.user.passport",
+        "*.user.phone",
+      ],
+      censor: "[API REDACTED]",
+    },
   },
-  prettifier: pinoPretty,
-  transport: {
-    targets: [
-      {
-        target: 'pino/file',
-        options: { destination: `${path.join(__dirname, '../../.log')}` },
-      },
-      {
-        target: 'pino/file'
-      },
-    ],
-  },
-  redact: {
-    paths: ['user.name', 'user.address', 'user.phone', 'user.email', 'user.hash', 'user.password'],
-    censor: '[API REDACTED]',
-  }
+  transport
+);
 
-} as unknown as Options);
-
-const logger = pino.logger;
-
-export { pino, logger };
+export default logger;

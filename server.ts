@@ -3,11 +3,11 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 import * as fs from "fs";
 
-import { logger } from "./src/utils/logger";
 import generateKeypair from "./src/utils/generateKeypair";
 
 import app from "./src/index";
 import connectToDB from "./src/data/db";
+import logger from "./src/utils/logger";
 
 dotenv.config();
 

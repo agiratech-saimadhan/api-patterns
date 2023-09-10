@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import signinSchema from "./signInSchema";
-import { logger } from "../../../../utils/logger";
+import logger from "../../../../utils/logger";
+
+const childLogger = logger.child({ module: "Validate Signin", version: "1" });
 
 function validateSignin(req: Request, res: Response, next: NextFunction) {
   try {
@@ -10,13 +12,10 @@ function validateSignin(req: Request, res: Response, next: NextFunction) {
       throw value.error;
     }
 
+    childLogger.info("Validated Request");
     next();
   } catch (error) {
-    logger.error({
-      Path: "/auth/login",
-      message: "Request Validation Failed",
-      error: error,
-    });
+    childLogger.trace({ error }, "Failed to validate request");
 
     res
       .status(400)
