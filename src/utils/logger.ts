@@ -1,4 +1,5 @@
 import path from "path";
+import { TransportTargetOptions } from "pino";
 import { pinoHttp, Options } from "pino-http";
 import pinoPretty from "pino-pretty";
 
@@ -22,7 +23,12 @@ const pino = pinoHttp({
         target: 'pino/file'
       },
     ],
+  },
+  redact: {
+    paths: ['user.name', 'user.address', 'user.phone', 'user.email', 'user.hash', 'user.password'],
+    censor: '[API REDACTED]',
   }
+
 } as unknown as Options);
 
 const logger = pino.logger;
