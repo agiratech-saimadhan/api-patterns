@@ -11,7 +11,7 @@ import userRouter from "./routes/api/users";
 import helloRouter from "./routes/api/hello";
 import postRouter from "./routes/api/posts";
 import rateLimitMiddleware from "./middlewares/rateLimitMiddleware";
-import swaggerJSDoc from "swagger-jsdoc";
+import swaggerJSDoc, { SwaggerDefinition } from "swagger-jsdoc";
 import * as swaggerUi from "swagger-ui-express";
 
 const app = express();
@@ -34,11 +34,11 @@ const options = {
       description: "A simple social share API",
       license: {
         name: "MIT",
-        url: "https://agiratechnologies.com/licenses/MIT.html", // Replace with actual licence URL
+        url: "https://www.agiratech.com/licenses/MIT.html", // Replace with actual licence URL
       },
       contact: {
-        name: "Agratech",
-        url: "https://agiratechnologies.com",
+        name: "Agira tech",
+        url: "https://www.agiratech.com/",
       },
     },
     servers: [
@@ -46,8 +46,8 @@ const options = {
         url: "http://localhost:3000",
       },
     ],
-  },
-  apis: ["./routes/*.ts"],
+  } as SwaggerDefinition,
+  apis: [path.join(__dirname, "./routes/api/**/*.ts")],
 };
 
 const swaggerSpecs = swaggerJSDoc(options);
