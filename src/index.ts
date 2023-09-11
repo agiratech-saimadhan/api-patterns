@@ -2,12 +2,13 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import passport from "passport";
-
-import authRouter from "./routes/api/auth";
-import userRouter from "./routes/api/users";
 import jwtStrategy from "./config/passportConfig";
 import { pinoHttp } from "pino-http";
 import logger from "./utils/logger";
+
+import authRouter from "./routes/api/auth";
+import userRouter from "./routes/api/users";
+import helloRouter from "./routes/api/hello";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/:version/auth", authRouter);
 app.use("/api/:version/users", userRouter);
+app.use("/api/:version/hello", helloRouter);
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Resource Not Found" });
