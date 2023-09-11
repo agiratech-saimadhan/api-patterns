@@ -5,6 +5,7 @@ import passport from "passport";
 import jwtStrategy from "./config/passportConfig";
 import { pinoHttp } from "pino-http";
 import logger from "./utils/logger";
+import * as swagger from "swagger-ui-dist";
 
 import authRouter from "./routes/api/auth";
 import userRouter from "./routes/api/users";
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(swagger.absolutePath()));
 
 app.use(rateLimitMiddleware);
 
