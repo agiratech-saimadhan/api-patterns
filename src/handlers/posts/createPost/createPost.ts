@@ -19,6 +19,11 @@ async function createPost(req: Request, res: Response) {
 
     const post = await newPost.save();
 
+    if (!post) {
+      childLogger.trace({ post }, "Failed to create new post");
+      res.status(500).json({ message: "Failed to create new post" });
+    }
+
     childLogger.info({ postId: post._id }, "Created New Post");
     res.status(200).json({ message: "New Post Created", post });
   } catch (error) {

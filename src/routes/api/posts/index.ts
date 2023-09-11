@@ -6,6 +6,7 @@ import updatePost from "../../../handlers/posts/updatePost/updatePost";
 import passport from "passport";
 import deletePost from "../../../handlers/posts/deletePost/deletePost";
 import likePost from "../../../handlers/posts/likePost/likePost";
+import validateCreatePost from "../../../middlewares/requestValidators/post/createPost/postValidation";
 
 const postRouter = Router({ mergeParams: true });
 
@@ -16,6 +17,7 @@ postRouter.get("/:id", getPost);
 postRouter.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+  validateCreatePost,
   createPost
 );
 
