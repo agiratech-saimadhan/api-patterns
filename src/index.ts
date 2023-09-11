@@ -5,13 +5,14 @@ import passport from "passport";
 import jwtStrategy from "./config/passportConfig";
 import { pinoHttp } from "pino-http";
 import logger from "./utils/logger";
-import * as swagger from "swagger-ui-dist";
 
 import authRouter from "./routes/api/auth";
 import userRouter from "./routes/api/users";
 import helloRouter from "./routes/api/hello";
 import postRouter from "./routes/api/posts";
 import rateLimitMiddleware from "./middlewares/rateLimitMiddleware";
+import swaggerJSDoc from "swagger-jsdoc";
+import * as swaggerUi from "swagger-ui-express";
 
 const app = express();
 
@@ -23,7 +24,39 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(swagger.absolutePath()));
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Social Share API",
+      version: "1.0.0",
+      description: "A simple social share API",
+      license: {
+        name: "MIT",
+        url: "https://agiratechnologies.com/licenses/MIT.html", // Replace with actual licence URL
+      },
+      contact: {
+        name: "Agratech",
+        url: "https://agiratechnologies.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/*.ts"],
+};
+
+const swaggerSpecs = swaggerJSDoc(options);
+
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpecs, { explorer: true })
+);
 
 app.use(rateLimitMiddleware);
 
