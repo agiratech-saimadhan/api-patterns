@@ -10,6 +10,7 @@ import authRouter from "./routes/api/auth";
 import userRouter from "./routes/api/users";
 import helloRouter from "./routes/api/hello";
 import postRouter from "./routes/api/posts";
+import rateLimitMiddleware from "./middlewares/rateLimitMiddleware";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(rateLimitMiddleware);
 
 app.use("/api/:version/auth", authRouter);
 app.use("/api/:version/users", userRouter);
