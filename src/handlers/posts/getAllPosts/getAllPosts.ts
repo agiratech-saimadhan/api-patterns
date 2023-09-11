@@ -21,12 +21,15 @@ async function getAllPosts(req: Request, res: Response) {
 
     const posts = await postsQuery.exec();
 
+    const totalPages = Math.ceil(totalPosts / perPage);
+
+    if (page > totalPages)
+      return res.status(404).json({ message: "Page not found", totalPages });
+
     if (!posts || posts.length === 0) {
-      childLogger.info({ posts }, "No Posts Found");
+      childLogger.info({ posts }, "No Posts yet");
       return res.status(200).json({ message: "No posts yet" });
     }
-
-    const totalPages = Math.ceil(totalPosts / perPage);
 
     childLogger.info({ posts }, "Retrieved Posts");
     res.status(200).json({
